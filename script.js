@@ -279,6 +279,14 @@ document.addEventListener('DOMContentLoaded', function() {
             navLinks.classList.toggle('active');
             navToggle.classList.toggle('active');
         });
+        
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                navLinks.classList.remove('active');
+                navToggle.classList.remove('active');
+            });
+        });
     }
 });
 
