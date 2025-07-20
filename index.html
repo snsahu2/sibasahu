@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -20,19 +19,21 @@
                     <span class="nav-title">Assistant Agency Manager</span>
                 </div>
             </div>
-            <ul class="nav-links">
-                <li><a href="#home" class="nav-link active">Home</a></li>
-                <li><a href="#services" class="nav-link">Services</a></li>
-                <li><a href="#benefits" class="nav-link">Benefits</a></li>
-                <li><a href="#comparison" class="nav-link">Compare</a></li>
-                <li><a href="#calculator" class="nav-link">Plan</a></li>
-                <li><a href="#news" class="nav-link">Videos</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-            </ul>
-            <div class="nav-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
+            <button class="hamburger-menu" id="hamburger-menu" aria-label="Menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+            <div class="nav-menu" id="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#services" class="nav-link">Services</a></li>
+                    <li><a href="#benefits" class="nav-link">Benefits</a></li>
+                    <li><a href="#comparison" class="nav-link">Compare</a></li>
+                    <li><a href="#calculator" class="nav-link">Plan</a></li>
+                    <li><a href="#news" class="nav-link">Videos</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -192,20 +193,24 @@
                             <span class="stat-value">15,000+</span>
                             <span class="stat-name">Hospitals</span>
                         </div>
+                        <div class="winner-stat">
+                            <span class="stat-value">3 Years</span>
+                            <span class="stat-name">Waiting Period</span>
+                        </div>
                     </div>
                 </div>
                 <div class="comparison-others">
                     <div class="other-company">
                         <span class="company-name">Niva Bupa</span>
-                        <span class="company-stat">98% | 10,000+</span>
+                        <span class="company-stat">98% | 10,000+ | 3 Years</span>
                     </div>
                     <div class="other-company">
                         <span class="company-name">Aditya Birla</span>
-                        <span class="company-stat">96.6% | 10,000+</span>
+                        <span class="company-stat">96.6% | 10,000+ | 3 Years</span>
                     </div>
                     <div class="other-company">
                         <span class="company-name">Care Health</span>
-                        <span class="company-stat">92.7% | 11,000+</span>
+                        <span class="company-stat">92.7% | 11,000+ | 4 Years</span>
                     </div>
                 </div>
             </div>
@@ -514,37 +519,7 @@
             </div>
             
             
-            <!-- Plan Options -->
-            <div class="plan-options-section">
-                <h3>Available Sum Insured Options</h3>
-                <div class="plan-options-grid">
-                    <div class="plan-option-card">
-                        <div class="plan-option-amount">₹3 Lakhs</div>
-                        <div class="plan-option-multiplier">Up to ₹12 Lakhs coverage</div>
-                    </div>
-                    <div class="plan-option-card featured">
-                        <div class="plan-option-tag">Most Popular</div>
-                        <div class="plan-option-amount">₹5 Lakhs</div>
-                        <div class="plan-option-multiplier">Up to ₹20 Lakhs coverage</div>
-                    </div>
-                    <div class="plan-option-card">
-                        <div class="plan-option-amount">₹10 Lakhs</div>
-                        <div class="plan-option-multiplier">Up to ₹40 Lakhs coverage</div>
-                    </div>
-                    <div class="plan-option-card">
-                        <div class="plan-option-amount">₹15 Lakhs</div>
-                        <div class="plan-option-multiplier">Up to ₹60 Lakhs coverage</div>
-                    </div>
-                    <div class="plan-option-card">
-                        <div class="plan-option-amount">₹20 Lakhs</div>
-                        <div class="plan-option-multiplier">Up to ₹80 Lakhs coverage</div>
-                    </div>
-                    <div class="plan-option-card">
-                        <div class="plan-option-amount">₹25 Lakhs</div>
-                        <div class="plan-option-multiplier">Up to ₹1 Crore coverage</div>
-                    </div>
-                </div>
-            </div>
+
             
             <!-- Testimonials -->
             <div class="testimonials-section">
@@ -927,6 +902,5 @@
     </div>
 
     <script src="script.js"></script>
-    <script src="enhanced-script.js"></script>
 </body>
 </html>
