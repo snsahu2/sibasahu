@@ -293,23 +293,48 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.opacity = '1';
 });
 
-// Mobile navigation toggle
+// Mobile navigation toggle with improved hamburger menu
 document.addEventListener('DOMContentLoaded', function() {
-    const navToggle = document.querySelector('.nav-toggle');
-    const navLinks = document.querySelector('.nav-links');
+    const hamburgerMenu = document.getElementById('hamburger-menu');
+    const navMenu = document.getElementById('nav-menu');
     
-    if (navToggle && navLinks) {
-        navToggle.addEventListener('click', function() {
-            navLinks.classList.toggle('active');
-            navToggle.classList.toggle('active');
+    if (hamburgerMenu && navMenu) {
+        hamburgerMenu.addEventListener('click', function() {
+            hamburgerMenu.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            
+            // Toggle aria-expanded for accessibility
+            const isExpanded = hamburgerMenu.classList.contains('active');
+            hamburgerMenu.setAttribute('aria-expanded', isExpanded);
+            
+            // Prevent body scrolling when menu is open
+            if (isExpanded) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
         });
         
         // Close menu when clicking on a link
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function() {
-                navLinks.classList.remove('active');
-                navToggle.classList.remove('active');
+                hamburgerMenu.classList.remove('active');
+                navMenu.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                hamburgerMenu.setAttribute('aria-expanded', 'false');
             });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (navMenu.classList.contains('active') && 
+                !navMenu.contains(e.target) && 
+                !hamburgerMenu.contains(e.target)) {
+                hamburgerMenu.classList.remove('active');
+                navMenu.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                hamburgerMenu.setAttribute('aria-expanded', 'false');
+            }
         });
     }
 });
@@ -675,4 +700,270 @@ document.body.style.transition = 'opacity 0.5s ease';
 
 window.addEventListener('load', () => {
     document.body.style.opacity = '1';
+});
+// Enhanced UI functionality
+
+// Initialize all UI components
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize tabs if they exist
+    initTabs();
+    
+    // Initialize accordions if they exist
+    initAccordions();
+    
+    // Initialize tooltips
+    initTooltips();
+    
+    // Add active class to current section in navigation
+    trackActiveSection();
+});
+
+// Tab functionality
+function initTabs() {
+    const tabGroups = document.querySelectorAll('.tabs');
+    
+    tabGroups.forEach(tabGroup => {
+        const tabs = tabGroup.querySelectorAll('.tab');
+        const tabContents = tabGroup.nextElementSibling.querySelectorAll('.tab-pane');
+        
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and tab contents
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                tabContents[index].classList.add('active');
+            });
+        });
+    });
+}
+
+// Accordion functionality
+function initAccordions() {
+    const accordionItems = document.querySelectorAll('.accordion-item');
+    
+    accordionItems.forEach(item => {
+        const header = item.querySelector('.accordion-header');
+        
+        header.addEventListener('click', () => {
+            // Toggle active class on clicked item
+            item.classList.toggle('active');
+            
+            // Optional: Close other accordion items
+            // accordionItems.forEach(otherItem => {
+            //     if (otherItem !== item) {
+            //         otherItem.classList.remove('active');
+            //     }
+            // });
+        });
+    });
+}
+
+// Tooltip functionality
+function initTooltips() {
+    // No additional JavaScript needed for basic tooltips
+    // They work with CSS :hover
+}
+
+// Track active section while scrolling
+function trackActiveSection() {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    window.addEventListener('scroll', () => {
+        let current = '';
+        const scrollPosition = window.scrollY + 100;
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                current = section.getAttribute('id');
+            }
+        });
+        
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('active');
+            }
+        });
+    });
+}
+
+// Lazy loading images for better performance
+document.addEventListener('DOMContentLoaded', function() {
+    const lazyImages = document.querySelectorAll('img[data-src]');
+    
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.removeAttribute('data-src');
+                    imageObserver.unobserve(img);
+                }
+            });
+        });
+        
+        lazyImages.forEach(img => {
+            imageObserver.observe(img);
+        });
+    } else {
+        // Fallback for browsers that don't support IntersectionObserver
+        lazyImages.forEach(img => {
+            img.src = img.dataset.src;
+            img.removeAttribute('data-src');
+        });
+    }
+});
+
+// Smooth scroll to top button
+document.addEventListener('DOMContentLoaded', function() {
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    
+    if (scrollTopBtn) {
+        // Show/hide button based on scroll position
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+        
+        // Scroll to top when clicked
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+});
+
+// Form validation
+document.addEventListener('DOMContentLoaded', function() {
+    const forms = document.querySelectorAll('form.needs-validation');
+    
+    forms.forEach(form => {
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            
+            form.classList.add('was-validated');
+        });
+    });
+});
+
+// Counter animation for statistics
+document.addEventListener('DOMContentLoaded', function() {
+    const counters = document.querySelectorAll('.counter');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counter = entry.target;
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2000; // 2 seconds
+                const step = target / (duration / 16); // 60fps
+                
+                let current = 0;
+                const timer = setInterval(() => {
+                    current += step;
+                    counter.textContent = Math.floor(current);
+                    
+                    if (current >= target) {
+                        counter.textContent = target;
+                        clearInterval(timer);
+                    }
+                }, 16);
+                
+                observer.unobserve(counter);
+            }
+        });
+    });
+    
+    counters.forEach(counter => {
+        observer.observe(counter);
+    });
+});
+
+// Responsive tables
+document.addEventListener('DOMContentLoaded', function() {
+    const tables = document.querySelectorAll('table.responsive');
+    
+    tables.forEach(table => {
+        const headerCells = table.querySelectorAll('thead th');
+        const headerTexts = Array.from(headerCells).map(cell => cell.textContent);
+        
+        const bodyRows = table.querySelectorAll('tbody tr');
+        
+        bodyRows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            
+            cells.forEach((cell, index) => {
+                cell.setAttribute('data-label', headerTexts[index]);
+            });
+        });
+    });
+});
+
+// Add scroll to top button to the DOM
+function addScrollToTopButton() {
+    const button = document.createElement('button');
+    button.id = 'scrollTopBtn';
+    button.innerHTML = '<i class="fas fa-arrow-up"></i>';
+    button.className = 'scroll-top-btn';
+    document.body.appendChild(button);
+    
+    // Add CSS for the button
+    const style = document.createElement('style');
+    style.textContent = `
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #ED1C24;
+            color: white;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+        
+        .scroll-top-btn.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .scroll-top-btn:hover {
+            background: #ff4757;
+            transform: translateY(-5px);
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// Call this function to add the scroll to top button
+document.addEventListener('DOMContentLoaded', function() {
+    addScrollToTopButton();
 });
